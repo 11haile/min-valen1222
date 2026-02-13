@@ -13,6 +13,7 @@
     <style>
         /* === Reset & Base === */
         *, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
+        html { overflow-y: auto; height: 100%; }
         body { margin: 0; line-height: 1.5; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         h1, h2, .playfair { font-family: 'Playfair Display', serif; margin: 0; }
         p { margin: 0; }
@@ -32,9 +33,10 @@
         .w-8 { width: 2rem; }
         .h-72 { height: 18rem; }
         .h-px { height: 1px; }
-        .min-h-screen { min-height: 100vh; }
+        .min-h-screen { min-height: 100vh; min-height: 100dvh; }
         .min-h-\[140px\] { min-height: 140px; }
         .overflow-hidden { overflow: hidden; }
+        .overflow-auto { overflow: auto; -webkit-overflow-scrolling: touch; }
         .pointer-events-none { pointer-events: none; }
         .text-center { text-align: center; }
 
@@ -151,8 +153,20 @@
         .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
 
         /* === Responsive === */
+        @media (max-width: 480px) {
+            .p-10 { padding: 1.5rem; }
+            .p-8 { padding: 1.25rem; }
+            .mb-10 { margin-bottom: 1.5rem; }
+            .mb-8 { margin-bottom: 1.25rem; }
+        }
         @media (min-width: 768px) {
             .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
+        }
+
+        /* === Mobile Scroll Fix === */
+        @supports (-webkit-touch-callout: none) {
+            /* iOS Safari specific: fix viewport height */
+            .min-h-screen { min-height: -webkit-fill-available; }
         }
 
         /* === Custom Classes === */
@@ -178,7 +192,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6 relative">
+<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex justify-center p-6 relative overflow-auto">
 
     <!-- Floating Background Icons -->
     <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none pointer-events-none">🎓</div>
@@ -189,7 +203,7 @@
     <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
 
     <!-- Main Card Container -->
-    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40">
+    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40" style="margin-top: auto; margin-bottom: auto;">
         
         <!-- Graduation Badge -->
         <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-100 shadow-sm">
