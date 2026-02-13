@@ -7,27 +7,131 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+        
         body { 
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
+        h1, h2, .playfair {
+            font-family: 'Playfair Display', serif;
+        }
         .glass { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
         #message-box {
             transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6">
+<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6 overflow-hidden relative">
 
-    <div class="max-w-md w-full glass border border-white/50 rounded-[2.5rem] shadow-2xl p-8 text-center transition-all hover:shadow-rose-200/60">
+    <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none">🎓</div>
+    <div class="fixed bottom-20 right-10 text-4xl opacity-20 animate-bounce select-none">❤️</div>
+    <div class="fixed top-1/4 right-1/4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40">
         
-        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-100/50 text-teal-700 text-[10px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-200/50">
-            <span class="mr-1.5">🎓</span> Officiell Socionom-examen 2026
+        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-100 shadow-sm">
+            <span class="mr-2 text-base">🎓</span> Officiell Socionom-examen 2026
         </div>
 
-        <h1 class="text-4xl font-light text-slate-800 mb-
+        <h1 class="text-5xl md:text-6xl text-slate-800 mb-4 leading-tight">
+            Min <span class="text-rose-500 italic">Hjälte</span>.
+        </h1>
+
+        <div class="flex items-center justify-center gap-2 mb-8 text-rose-500">
+            <span class="h-px w-8 bg-rose-200"></span>
+            <span class="text-xs font-medium tracking-widest uppercase">Happy Valentine's</span>
+            <span class="h-px w-8 bg-rose-200"></span>
+        </div>
+
+        <p class="text-lg text-slate-600 font-light leading-relaxed mb-10 px-2">
+            Världen blev precis en tryggare och varmare plats för att du klev ut i arbetslivet idag. Jag är så otroligt stolt över dig!
+        </p>
+
+        <div id="message-box" class="bg-white/50 rounded-3xl p-8 shadow-inner border border-rose-50 min-h-[140px] flex items-center justify-center mb-10 text-lg leading-relaxed text-slate-700 italic">
+            Klicka på knappen för en påminnelse om varför du är fantastisk...
+        </div>
+
+        <button onclick="celebrate()" class="group relative inline-flex items-center justify-center px-10 py-4 font-semibold text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200 hover:-translate-y-1 active:scale-95 focus:outline-none">
+            <span>Fira Henne!</span>
+            <span class="ml-2 transition-transform group-hover:rotate-12">🎉</span>
+        </button>
+
+        <div class="mt-12 text-[10px] text-slate-400 font-bold tracking-[0.2em] uppercase">
+            12 FEBRUARI 2026 • 14 FEBRUARI 2026
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            "Socionomexamen: Check ✅. Världsherravälde: Nästa.",
+            "Du är en glädjespridare ❤️",
+            "Du ser de som ingen annan ser ❤️",
+            "Du är beviset på att empati vinner i längden ❤️",
+            "Kom ihåg: Du kan inte hjälpa andra om du inte tar hand om dig själv också ❤️"
+        ];
+
+        let lastQuoteIndex = -1;
+
+        function celebrate() {
+            // 1. Uppdatera texten (Din logik)
+            const box = document.getElementById('message-box');
+            let index;
+            do {
+                index = Math.floor(Math.random() * quotes.length);
+            } while (quotes.length > 1 && index === lastQuoteIndex);
+            
+            lastQuoteIndex = index;
+            box.style.opacity = 0;
+            
+            setTimeout(() => {
+                box.innerText = quotes[index];
+                box.style.opacity = 1;
+            }, 200);
+
+            // 2. Graduation Confetti (Teal & Gold)
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.7 },
+                colors: ['#0d9488', '#fbbf24', '#ffffff'],
+                disableForReducedMotion: true
+            });
+
+            // 3. Love Confetti (Hjärtan)
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 },
+                    shapes: ['heart'],
+                    colors: ['#e11d48', '#fda4af'],
+                    disableForReducedMotion: true
+                });
+            }, 400);
+        }
+
+        // Auto-fira vid start för effekt (Netlify-agentens idé)
+        window.addEventListener('load', () => {
+            setTimeout(celebrate, 1000);
+        });
+    </script>
+</body>
+</html>
