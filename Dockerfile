@@ -1,13 +1,13 @@
-# Vi använder Nginx direkt - ingen Node, inget krångel
+# Använd Nginx stable-alpine för en säker och lättviktig server
 FROM nginx:stable-alpine
 
-# Ta bort Nginx standard-välkomstsida
+# Ta bort standard-sidorna
 RUN rm -rf /usr/share/nginx/html/*
 
-# Kopiera din 14.js och döp om den till index.html i containern
-COPY 14.js /usr/share/nginx/html/index.html
+# Kopiera din index.html till serverns rot
+COPY index.html /usr/share/nginx/html/index.html
 
-# Exponera port 80
+# Öppna port 80
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
