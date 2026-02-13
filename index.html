@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grattis älskling!</title>
     <!-- Confetti Library for celebration effects -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -35,6 +35,7 @@
         .min-h-screen { min-height: 100vh; }
         .min-h-\[140px\] { min-height: 140px; }
         .overflow-hidden { overflow: hidden; }
+        .pointer-events-none { pointer-events: none; }
         .text-center { text-align: center; }
 
         /* === Positioning === */
@@ -177,15 +178,15 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6 overflow-hidden relative">
+<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6 relative">
 
     <!-- Floating Background Icons -->
-    <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none">🎓</div>
-    <div class="fixed bottom-20 right-10 text-4xl opacity-20 animate-bounce select-none">❤️</div>
-    
+    <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none pointer-events-none">🎓</div>
+    <div class="fixed bottom-20 right-10 text-4xl opacity-20 animate-bounce select-none pointer-events-none">❤️</div>
+
     <!-- Background Animated Blobs -->
-    <div class="fixed top-1/4 right-1/4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-    <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="fixed top-1/4 right-1/4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob pointer-events-none"></div>
+    <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
 
     <!-- Main Card Container -->
     <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40">
