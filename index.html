@@ -143,12 +143,21 @@
         .delay-700 { animation-delay: 700ms; }
 
         /* === Hover / Active / Focus / Group States === */
-        .group:hover .group-hover\:rotate-12 { transform: rotate(12deg); }
-        .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-        .hover\:shadow-rose-200\/40:hover { --tw-shadow-color: rgb(254 205 211 / 0.4); box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
-        .hover\:shadow-rose-200:hover { --tw-shadow-color: #fecdd3; box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
-        .hover\:bg-rose-600:hover { background-color: #e11d48; }
-        .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+        .group:hover .group-hover\:rotate-12 { transform: none; }
+        @media (hover: hover) and (pointer: fine) {
+            .group:hover .group-hover\:rotate-12 { transform: rotate(12deg); }
+        }
+        .hover\:shadow-xl:hover { box-shadow: none; }
+        .hover\:shadow-rose-200\/40:hover { box-shadow: none; }
+        .hover\:shadow-rose-200:hover { box-shadow: none; }
+        /* Only apply hover transforms on devices that truly support hover (not touch) */
+        @media (hover: hover) and (pointer: fine) {
+            .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+            .hover\:shadow-rose-200\/40:hover { --tw-shadow-color: rgb(254 205 211 / 0.4); box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
+            .hover\:shadow-rose-200:hover { --tw-shadow-color: #fecdd3; box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
+            .hover\:bg-rose-600:hover { background-color: #e11d48; }
+            .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+        }
         .active\:scale-95:active { transform: scale(0.95); }
         .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
 
@@ -189,7 +198,7 @@
             100% { transform: translate(0px, 0px) scale(1); }
         }
         #message-box {
-            transition: all 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -204,7 +213,7 @@
     <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
 
     <!-- Main Card Container -->
-    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40" style="margin-top:auto;margin-bottom:auto;flex-shrink:0;">
+    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10" style="margin-top:auto;margin-bottom:auto;flex-shrink:0;">
         
         <!-- Graduation Badge -->
         <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-100 shadow-sm">
@@ -238,7 +247,7 @@
         </div>
 
         <!-- Celebration Button -->
-        <button onclick="celebrate()" class="group relative inline-flex items-center justify-center px-10 py-4 font-semibold text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200 hover:-translate-y-1 active:scale-95 focus:outline-none">
+        <button onclick="celebrate()" class="group relative inline-flex items-center justify-center px-10 py-4 font-semibold text-white bg-slate-900 rounded-full hover:shadow-xl hover:shadow-rose-200 hover:-translate-y-1 active:scale-95 focus:outline-none" style="transition: background-color 0.3s ease, box-shadow 0.3s ease;">
             <!-- EDIT HERE: Button text -->
             <span>❤️</span>
             <span class="ml-2 transition-transform group-hover:rotate-12">❤️</span>
