@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grattis älskling!</title>
-    <!-- Confetti Library for celebration effects -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +11,7 @@
     <style>
         /* === Reset & Base === */
         *, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
-        html { height: 100%; overflow-y: auto; }
+        html { min-height: 100%; }
         body { margin: 0; line-height: 1.5; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; min-height: 100%; }
         h1, h2, .playfair { font-family: 'Playfair Display', serif; margin: 0; }
         p { margin: 0; }
@@ -202,7 +200,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 relative" style="min-height:100vh;min-height:100dvh;padding:1.5rem;overflow-y:scroll;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;">
+<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 relative" style="margin:0;padding:1.5rem;overflow-y:auto;-webkit-overflow-scrolling:touch;">
 
     <!-- Floating Background Icons -->
     <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none pointer-events-none">🎓</div>
@@ -213,7 +211,7 @@
     <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
 
     <!-- Main Card Container -->
-    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10" style="margin-top:auto;margin-bottom:auto;flex-shrink:0;">
+    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10" style="margin:2rem auto;">
         
         <!-- Graduation Badge -->
         <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-100 shadow-sm">
@@ -274,18 +272,17 @@
         let lastQuoteIndex = -1;
 
         function celebrate() {
-            // 1. Update the message box with a random quote
             const box = document.getElementById('message-box');
-            
-            // Ensure we pick a new quote different from the last one
+
+            // Pick a new quote different from the last one
             let index;
             if (quotes.length > 0) {
                 do {
                     index = Math.floor(Math.random() * quotes.length);
                 } while (quotes.length > 1 && index === lastQuoteIndex);
-                
+
                 lastQuoteIndex = index;
-                
+
                 // Fade out, change text, fade in
                 box.style.opacity = 0;
                 setTimeout(() => {
@@ -293,38 +290,7 @@
                     box.style.opacity = 1;
                 }, 200);
             }
-
-            // Check if confetti library is loaded
-            if (typeof confetti === 'function') {
-                // 2. Graduation Confetti (Teal & Gold)
-                confetti({
-                    particleCount: 80,
-                    spread: 70,
-                    origin: { y: 0.7 },
-                    colors: ['#0d9488', '#fbbf24', '#ffffff'],
-                    disableForReducedMotion: true
-                });
-
-                // 3. Love Confetti (Hearts) a bit later
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 50,
-                        spread: 60,
-                        origin: { y: 0.7 },
-                        shapes: ['heart'],
-                        colors: ['#e11d48', '#fda4af'],
-                        disableForReducedMotion: true
-                    });
-                }, 400);
-            } else {
-                console.warn('Confetti library not loaded');
-            }
         }
-
-        // Auto-celebrate on load for effect
-        window.addEventListener('load', () => {
-            setTimeout(celebrate, 1000);
-        });
     </script>
 </body>
 </html>
