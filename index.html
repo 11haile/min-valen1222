@@ -2,10 +2,8 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grattis älskling!</title>
-    <!-- Confetti Library for celebration effects -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +11,8 @@
     <style>
         /* === Reset & Base === */
         *, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
-        body { margin: 0; line-height: 1.5; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html { min-height: 100%; }
+        body { margin: 0; line-height: 1.5; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; min-height: 100%; }
         h1, h2, .playfair { font-family: 'Playfair Display', serif; margin: 0; }
         p { margin: 0; }
         button { font-family: inherit; font-size: 100%; line-height: inherit; color: inherit; margin: 0; padding: 0; cursor: pointer; background-color: transparent; background-image: none; }
@@ -32,9 +31,11 @@
         .w-8 { width: 2rem; }
         .h-72 { height: 18rem; }
         .h-px { height: 1px; }
-        .min-h-screen { min-height: 100vh; }
+        .min-h-screen { min-height: 100vh; min-height: 100dvh; }
         .min-h-\[140px\] { min-height: 140px; }
         .overflow-hidden { overflow: hidden; }
+        .overflow-auto { overflow: auto; -webkit-overflow-scrolling: touch; }
+        .pointer-events-none { pointer-events: none; }
         .text-center { text-align: center; }
 
         /* === Positioning === */
@@ -140,18 +141,40 @@
         .delay-700 { animation-delay: 700ms; }
 
         /* === Hover / Active / Focus / Group States === */
-        .group:hover .group-hover\:rotate-12 { transform: rotate(12deg); }
-        .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-        .hover\:shadow-rose-200\/40:hover { --tw-shadow-color: rgb(254 205 211 / 0.4); box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
-        .hover\:shadow-rose-200:hover { --tw-shadow-color: #fecdd3; box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
-        .hover\:bg-rose-600:hover { background-color: #e11d48; }
-        .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+        .group:hover .group-hover\:rotate-12 { transform: none; }
+        @media (hover: hover) and (pointer: fine) {
+            .group:hover .group-hover\:rotate-12 { transform: rotate(12deg); }
+        }
+        .hover\:shadow-xl:hover { box-shadow: none; }
+        .hover\:shadow-rose-200\/40:hover { box-shadow: none; }
+        .hover\:shadow-rose-200:hover { box-shadow: none; }
+        /* Only apply hover transforms on devices that truly support hover (not touch) */
+        @media (hover: hover) and (pointer: fine) {
+            .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+            .hover\:shadow-rose-200\/40:hover { --tw-shadow-color: rgb(254 205 211 / 0.4); box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
+            .hover\:shadow-rose-200:hover { --tw-shadow-color: #fecdd3; box-shadow: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); }
+            .hover\:bg-rose-600:hover { background-color: #e11d48; }
+            .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+        }
         .active\:scale-95:active { transform: scale(0.95); }
         .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
 
         /* === Responsive === */
+        @media (max-width: 480px) {
+            .p-10 { padding: 1.5rem; }
+            .p-8 { padding: 1.25rem; }
+            .mb-10 { margin-bottom: 1.5rem; }
+            .mb-8 { margin-bottom: 1.25rem; }
+            #message-box { height: 140px; padding: 1rem; font-size: 0.95rem; }
+        }
         @media (min-width: 768px) {
             .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
+        }
+
+        /* === Mobile Scroll Fix === */
+        @supports (-webkit-touch-callout: none) {
+            /* iOS Safari specific: fix viewport height */
+            .min-h-screen { min-height: -webkit-fill-available; }
         }
 
         /* === Custom Classes === */
@@ -173,22 +196,22 @@
             100% { transform: translate(0px, 0px) scale(1); }
         }
         #message-box {
-            transition: all 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 min-h-screen flex items-center justify-center p-6 overflow-hidden relative">
+<body class="bg-gradient-to-br from-rose-100 via-white to-teal-50 relative" style="margin:0;padding:1.5rem;overflow-y:auto;-webkit-overflow-scrolling:touch;">
 
     <!-- Floating Background Icons -->
-    <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none">🎓</div>
-    <div class="fixed bottom-20 right-10 text-4xl opacity-20 animate-bounce select-none">❤️</div>
-    
+    <div class="fixed top-10 left-10 text-4xl opacity-20 animate-bounce delay-700 select-none pointer-events-none">🎓</div>
+    <div class="fixed bottom-20 right-10 text-4xl opacity-20 animate-bounce select-none pointer-events-none">❤️</div>
+
     <!-- Background Animated Blobs -->
-    <div class="fixed top-1/4 right-1/4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-    <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="fixed top-1/4 right-1/4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob pointer-events-none"></div>
+    <div class="fixed bottom-1/4 left-1/4 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
 
     <!-- Main Card Container -->
-    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10 transition-all hover:shadow-rose-200/40">
+    <div class="relative max-w-lg w-full glass border border-white/60 rounded-[2.5rem] shadow-2xl p-10 text-center z-10" style="margin:2rem auto;">
         
         <!-- Graduation Badge -->
         <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold uppercase tracking-[0.15em] mb-8 border border-teal-100 shadow-sm">
@@ -216,13 +239,13 @@
         </p>
 
         <!-- Dynamic Message Box -->
-        <div id="message-box" class="bg-white/50 rounded-3xl p-8 shadow-inner border border-rose-50 min-h-[140px] flex items-center justify-center mb-10 text-lg leading-relaxed text-slate-700 italic">
+        <div id="message-box" class="bg-white/50 rounded-3xl p-8 shadow-inner border border-rose-50 flex items-center justify-center mb-10 text-lg leading-relaxed text-slate-700 italic" style="height:160px;overflow:hidden;">
             <!-- Initial text in the box -->
             Klicka på knappen för en påminnelse om varför du är fantastisk...
         </div>
 
         <!-- Celebration Button -->
-        <button onclick="celebrate()" class="group relative inline-flex items-center justify-center px-10 py-4 font-semibold text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200 hover:-translate-y-1 active:scale-95 focus:outline-none">
+        <button onclick="celebrate()" class="group relative inline-flex items-center justify-center px-10 py-4 font-semibold text-white bg-slate-900 rounded-full hover:shadow-xl hover:shadow-rose-200 hover:-translate-y-1 active:scale-95 focus:outline-none" style="transition: background-color 0.3s ease, box-shadow 0.3s ease;">
             <!-- EDIT HERE: Button text -->
             <span>❤️</span>
             <span class="ml-2 transition-transform group-hover:rotate-12">❤️</span>
@@ -249,18 +272,17 @@
         let lastQuoteIndex = -1;
 
         function celebrate() {
-            // 1. Update the message box with a random quote
             const box = document.getElementById('message-box');
-            
-            // Ensure we pick a new quote different from the last one
+
+            // Pick a new quote different from the last one
             let index;
             if (quotes.length > 0) {
                 do {
                     index = Math.floor(Math.random() * quotes.length);
                 } while (quotes.length > 1 && index === lastQuoteIndex);
-                
+
                 lastQuoteIndex = index;
-                
+
                 // Fade out, change text, fade in
                 box.style.opacity = 0;
                 setTimeout(() => {
@@ -268,38 +290,7 @@
                     box.style.opacity = 1;
                 }, 200);
             }
-
-            // Check if confetti library is loaded
-            if (typeof confetti === 'function') {
-                // 2. Graduation Confetti (Teal & Gold)
-                confetti({
-                    particleCount: 80,
-                    spread: 70,
-                    origin: { y: 0.7 },
-                    colors: ['#0d9488', '#fbbf24', '#ffffff'],
-                    disableForReducedMotion: true
-                });
-
-                // 3. Love Confetti (Hearts) a bit later
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 50,
-                        spread: 60,
-                        origin: { y: 0.7 },
-                        shapes: ['heart'],
-                        colors: ['#e11d48', '#fda4af'],
-                        disableForReducedMotion: true
-                    });
-                }, 400);
-            } else {
-                console.warn('Confetti library not loaded');
-            }
         }
-
-        // Auto-celebrate on load for effect
-        window.addEventListener('load', () => {
-            setTimeout(celebrate, 1000);
-        });
     </script>
 </body>
 </html>
